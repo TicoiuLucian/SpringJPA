@@ -2,9 +2,6 @@ package org.example.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Where;
-
-import java.time.LocalDate;
 
 @Entity
 @Setter
@@ -12,24 +9,27 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Where(clause = "sold = false")
+//@Where(clause = "sold = false")
 public class Car {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="carid")
-    private Integer carId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "car_id")
+  private Integer carId;
 
-    private String manufacturer;
+  private String manufacturer;
 
-    private String model;
+  private String model;
 
-    private Float price;
+  private Float price;
 
-    private Boolean sold = false;
+  @ManyToOne(cascade = CascadeType.MERGE)
+  private Owner owner;
 
-    private LocalDate soldDate;
-
-    private LocalDate addDate;
+  public Car(final String manufacturer, final String model, final Float price) {
+    this.manufacturer = manufacturer;
+    this.model = model;
+    this.price = price;
+  }
 }
 
 
